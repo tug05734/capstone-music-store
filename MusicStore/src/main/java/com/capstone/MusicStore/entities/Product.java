@@ -29,6 +29,9 @@ public class Product {
 	@Column(name="price")
 	private BigDecimal price;
 	
+	@Column(name="img_path")
+	private String imagePath;
+	
 //	@ManyToOne
 //	@JoinColumn(name = "")
 //	private Category category;
@@ -37,6 +40,14 @@ public class Product {
 //	@JoinColumn(name = "")
 //	private Genre genre;
 	
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 
 	public int getProductID() {
 		return productID;

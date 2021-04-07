@@ -30,10 +30,13 @@ public class ProductService {
 
 
         for (Product p : productRepository.findAll()) {
-            if (p.getProductName().contains(keyword)) {
+            if (p.getProductName().toLowerCase().contains(keyword.toLowerCase()) && !result.contains(p)) {
                 result.add(p);
             }
-            if(p.getCondition().contains(keyword)) {
+            if(p.getCondition().toLowerCase().contains(keyword.toLowerCase()) && !result.contains(p)) {
+            	result.add(p);
+            }
+            if(p.getPrice().toString().contains(keyword) && !result.contains(p)) {
             	result.add(p);
             }
             //Add for category and genre

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.capstone.MusicStore.entities.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
     User findByUserName(String userName);
 }

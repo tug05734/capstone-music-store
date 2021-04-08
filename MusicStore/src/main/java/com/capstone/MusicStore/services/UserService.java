@@ -45,5 +45,10 @@ public class UserService {
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
     }
+    
+    //Find User By Id - Tobin
+    public User findUserById(int userId) {
+    	return userRepository.findById(userId).orElse(null);
+    }
 
 }

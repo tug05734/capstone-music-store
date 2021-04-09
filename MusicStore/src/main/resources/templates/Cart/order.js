@@ -23,6 +23,7 @@ function CreateLineItems(order) {
     for (i = 0; i < order.length; i++) {
         var card = document.createElement("div");
         card.setAttribute("class", "card")
+        card.setAttribute("style", "margin-bottom:20px")
         accordian.appendChild(card)
 
         var cardheader = document.createElement("div");
@@ -41,8 +42,13 @@ function CreateLineItems(order) {
         button.setAttribute("data-target", "#collapse" + i)
         button.setAttribute("aria-expanded", "true")
         button.setAttribute("aria-controls", "collapse" + i)
-        button.innerText = "Order " + i
+        button.innerText = "Order " + (i+1)
         h2.appendChild(button);
+
+        var totalAmount = document.createElement("h5");
+        totalAmount.setAttribute("style", "margin-left:10px;")
+        totalAmount.innerText = "Total Amount: " + order[i].amount;
+        cardheader.appendChild(totalAmount);
 
         var collapse = document.createElement("div");
         collapse.setAttribute("id", "collapse" + i)

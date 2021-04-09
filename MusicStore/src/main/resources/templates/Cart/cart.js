@@ -2,6 +2,7 @@
 //global variables
 var cartData = []
 userId = 1;
+var TotalAmount = 0;
 function CreateCartFromJSON() {
     fetch("http://localhost:8090/getCartByUserId", {
         method: "POST",
@@ -18,8 +19,10 @@ function CreateCartFromJSON() {
 
 function CreateLineItems(items) {
     var list = document.createElement("ul");
+    TotalAmount = 0;
     list.setAttribute("class", "list-group")
     for (i = 0; i < items.length; i++) {
+        TotalAmount = TotalAmount + items[i].price;
         var anchor = document.createElement("a");
         anchor.href = "#";
         anchor.innerText = items[i].product.productName;
@@ -56,6 +59,8 @@ function CreateLineItems(items) {
     var divContainer = document.getElementById("showData");
     divContainer.innerHTML = "";
     divContainer.appendChild(list);
+    var h2 = document.getElementById("totalAmount");
+    h2.innerText = "Total Amount: "+ TotalAmount
 }
 
 function deleteCartItem(itemId) {
@@ -107,12 +112,14 @@ function OrderNow() {
     var divContainer = document.getElementById("productList");
     divContainer.innerHTML = "";
     divContainer.appendChild(table);
+    var h4 = document.getElementById("totalAmountModal");
+    h4.innerText = "Total Amount: "+ TotalAmount
 }
 
 function PlaceOrder(){
     console.log(cartData)
     console.log(cartData.user)
-    var data = {"user": cartData[0].user, "amount": "1", "cart": cartData, "status": "confirmed"}
+    var data = {"user": cartData[0].user, "amount": TotalAmount, "cart": cartData, "status": "confirmed"}
     console.log(data)
     fetch("http://localhost:8090/order", {
         method: "POST",

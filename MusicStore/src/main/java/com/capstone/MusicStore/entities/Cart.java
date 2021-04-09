@@ -28,13 +28,24 @@ public class Cart {
 	
 	private BigDecimal price;
 	
+	private String status;
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Cart() {}
 	
-	public Cart(User user, Product product, int quantity, BigDecimal price) {
+	public Cart(User user, Product product, int quantity, BigDecimal price, String status) {
 		this.user = user;
 		this.product = product;
 		this.quantity = quantity;
 		this.price = price;
+		this.status = status;
 	}
 
 	public int getQuantity() {

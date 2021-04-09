@@ -40,7 +40,7 @@ function CreateLineItems(items) {
 
         var deleteIcon = document.createElement("img");
         deleteIcon.setAttribute("class", "delete-image")
-        deleteIcon.setAttribute("onclick", "deleteCartItem("+items[i].id+")")
+        deleteIcon.setAttribute("onclick", "deleteCartItem(" + items[i].id + ")")
         deleteIcon.src = "images/delete.png";
 
         var elem = document.createElement("li");
@@ -49,7 +49,7 @@ function CreateLineItems(items) {
         elem.appendChild(anchor);
         elem.appendChild(text);
         elem.appendChild(span);
-        
+
         elem.appendChild(deleteIcon);
         list.appendChild(elem);
     }
@@ -58,7 +58,7 @@ function CreateLineItems(items) {
     divContainer.appendChild(list);
 }
 
-function deleteCartItem(itemId){
+function deleteCartItem(itemId) {
     fetch("http://localhost:8090/deleteCartById", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
@@ -70,7 +70,62 @@ function deleteCartItem(itemId){
     })
 }
 
-function OrderNow(){
+function OrderNow() {
     //To be implemented
-    alert('order placed successfully!')
+    $('#exampleModal').modal('show')
+
+    var col = ['Product', 'Quantity', 'Price', 'Total'];
+
+    // CREATE DYNAMIC TABLE.
+    var table = document.createElement("table");
+    table.setAttribute('class', 'table table-striped table-hover')
+
+    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+    var tr = table.insertRow(-1);                   // TABLE ROW.
+
+    for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th");      // TABLE HEADER.
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+    }
+    for (i = 0; i < cartData.length; i++) {
+        tr = table.insertRow(-1);
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.productName;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].quantity;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.price;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].price;
+    }
+
+    var divContainer = document.getElementById("productList");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+}
+
+function PlaceOrder(){
+    console.log(cartData)
+    console.log(cartData.user)
+    var data = {"user": cartData[0].user, "amount": "1", "cart": cartData, "status": "confirmed"}
+    console.log(data)
+    fetch("http://localhost:8090/order", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).then((data) => {
+        console.log(data)
+        document.getElementById("modalBody").innerHTML="";
+        $('#exampleModal').modal('hide')
+        alert('order placed successfully!')
+        CreateCartFromJSON();
+    })
 }

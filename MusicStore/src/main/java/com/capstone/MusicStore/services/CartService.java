@@ -23,6 +23,10 @@ public class CartService {
 		 return cartRepository.findByUserId(userId);
 	 }
 	 
+	 public Iterable<Cart> getCartItemsByUserIdAndStatus(int userId, String status){
+		 return cartRepository.findByUserIdAndStatus(userId, status);
+	 }
+	 
 	 public Iterable<Cart> getCartItemsByUser(int userId){
 		 return cartRepository.findByUser(userService.findUserById(userId));
 	 }
@@ -37,6 +41,7 @@ public class CartService {
 				,productService.FindRepositoryById(cartSaveModel.getProductId()).orElse(null)
 				,cartSaveModel.getQuantity()
 				,cartSaveModel.getPrice()
+				,"New"
 				 );
 		 return cartRepository.save(cart);
 	 }

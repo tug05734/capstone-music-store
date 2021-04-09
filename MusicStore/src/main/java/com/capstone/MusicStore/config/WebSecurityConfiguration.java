@@ -41,6 +41,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/category").permitAll()
+                .antMatchers("/deleteCategory").permitAll()
+                .antMatchers("/genre").permitAll()
+                .antMatchers("/deleteGenre").permitAll()
+                .antMatchers("/getCartByUserId").permitAll()
+                .antMatchers("/getCartByUser").permitAll()
+                .antMatchers("/deleteCartById").permitAll()
+                .antMatchers("/cart").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/products/all").permitAll() //for testing
@@ -61,6 +69,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").and().exceptionHandling()
                 .accessDeniedPage("/access-denied");
+       
     }
 
     @Override

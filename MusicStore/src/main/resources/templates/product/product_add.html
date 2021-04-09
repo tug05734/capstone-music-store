@@ -1,0 +1,67 @@
+<!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/product/productStyles.css}">
+
+    <title>Add Product</title>
+
+</head>
+
+<body>
+    <div id="header"> 
+        <h2>Add Product</h2>
+    </div>
+
+    <div id="product_details">
+            <div id="column_pic">
+                    
+            </div>
+            <div id="column">
+                <div>
+                	<form th:action="@{/products/admin/add}" method="POST">
+                		<label><strong>Product Name: </strong></label>
+                		<input type="text" placeholder="Name" name="name"><br>
+	                    <p id="rows"><strong>Category:</strong> Instrument</p>
+	                    <p id="rows"><strong>Genre:</strong> Strings</p>
+	                    <label><strong>Condition: </strong></label>
+	                    <select name="condition">
+	                    	<option selected>New</option>
+	                    	<option>Good</option>
+	                    	<option>Used</option>
+	                    	<option>Fairly Used</option>
+	                    	<option>Poor</option>
+	                    </select><br><br>
+	                    <label><strong>Image Path: </strong></label>
+	                    <input type="text" placeholder=" /images/filename.ext" name="imgPath"><br><br>
+	            		<label><strong>Product Price: </strong></label>
+	            		<input type="text" placeholder="Price" name="price"><br><br>
+	            		<button type="submit">Add Product</button>
+                	</form>
+                </div>
+            </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

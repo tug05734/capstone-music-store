@@ -32,14 +32,28 @@ public class Product {
 	@Column(name="img_path")
 	private String imagePath;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "")
-//	private Category category;
+	@ManyToOne
+	private Category category;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "")
-//	private Genre genre;
+	@ManyToOne
+	private Genre genre;
 	
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
 
 	public String getImagePath() {
 		return imagePath;

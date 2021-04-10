@@ -96,11 +96,12 @@
     <!--navbar end  -->
     <div class="contain-fluid">
         <div class="row" style="margin-left: 20px; margin-top: 20px;">
-            <div class="column">
+            <div class="column-md-8">
                 <h2 style="margin-bottom: 30px;">Cart Items</h2>
+                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
                 <p id="showData"></p>
-                <h2 id="totalAmount"></h2>
-                <button type="button" class="btn btn-primary" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
+                <h2 id="totalAmount" style="margin-bottom: 20px;"></h2>
+                <button id="buyNowButton" type="button" class="btn btn-primary btn-lg" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
                     Buy Now
                 </button>
             </div>

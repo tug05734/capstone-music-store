@@ -4,7 +4,7 @@ var cartData = []
 userId = 1;
 var TotalAmount = 0;
 function CreateCartFromJSON() {
-    fetch("http://localhost:8090/getCartByUserId", {
+    fetch("http://localhost:8181/getCartByUserId", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: userId
@@ -61,10 +61,15 @@ function CreateLineItems(items) {
     divContainer.appendChild(list);
     var h2 = document.getElementById("totalAmount");
     h2.innerText = "Total Amount: "+ TotalAmount
+    if(items.length == 0){
+        document.getElementById("totalAmount").style.display = 'none';
+        document.getElementById("buyNowButton").style.display = 'none';
+        document.getElementById("emptyCart").style.display = '';
+    }
 }
 
 function deleteCartItem(itemId) {
-    fetch("http://localhost:8090/deleteCartById", {
+    fetch("http://localhost:8181/deleteCartById", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: itemId
@@ -121,7 +126,7 @@ function PlaceOrder(){
     console.log(cartData.user)
     var data = {"user": cartData[0].user, "amount": TotalAmount, "cart": cartData, "status": "confirmed"}
     console.log(data)
-    fetch("http://localhost:8090/order", {
+    fetch("http://localhost:8181/order", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify(data)

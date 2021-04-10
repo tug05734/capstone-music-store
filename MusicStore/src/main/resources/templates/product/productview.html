@@ -50,11 +50,36 @@
     <div id="header"> 
         <h2>Store page</h2>
     </div>
+    
+    <div class="navbar navbar-expand-lg navbar-dark bg-secondary">
+        <div class="container-fluid">
+            <div class="text-center">
+                <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Placeholder</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="search_block">
         <div id="search_bar">
             <form th:action="@{/products/search}" method="POST">
-                <input type="text" name="search" id="search" placeholder="Search our Catalog (Name, Condition, Price)">
+                <input type="text" name="search" id="search" placeholder="Search Our Catalog (Name, Category, Genre)">
                 <input type="submit" id="search_button" value="Search">
             </form>
         </div>
@@ -68,10 +93,12 @@
             			<a th:href="@{/products/details/{id}(id = ${product.productID})}" class="links">
             			<div>
 		            		<div class="col">
-		            			<p>Image goes here</p>
+		            			<img alt="Thumbnail" th:src="${product.imagePath}" id="thumbnail">
 				            	<h4 th:text="${product.productName}"></h4>
+				            	<p th:text="${product.category.name}"></p>
+				            	<p th:text="${product.genre.name}"></p>
 				            	<p th:text="${product.condition}"></p>
-				            	<p th:text="${product.price}"></p>
+				            	$<span th:text="${product.price}"></span>
 			            	</div>
             			</div>
             		</a>

@@ -96,15 +96,46 @@
     <!--navbar end  -->
     <div class="contain-fluid">
         <div class="row" style="margin-left: 20px; margin-top: 20px;">
-            <div class="column">
+            <div class="column-md-8">
                 <h2 style="margin-bottom: 30px;">Cart Items</h2>
+                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
                 <p id="showData"></p>
-                <button type="button" class="btn btn-primary" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
+                <h2 id="totalAmount" style="margin-bottom: 20px;"></h2>
+                <button id="buyNowButton" type="button" class="btn btn-primary btn-lg" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
                     Buy Now
                 </button>
             </div>
         </div>
     </div>
+
+     <!-- Modal Add Genre-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Verify Order Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="reset()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            
+          
+            <label>Shipping Address</label>
+            <p id="shippingAddress"></p>
+            <label>Billing Address</label>
+            <p id="billingAddress"></p>
+            <p id="productList"></p>
+            <h4 id="totalAmountModal"></h4>
+       
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="PlaceOrder()">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal End -->
 
 
 </body>

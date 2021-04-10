@@ -10,7 +10,7 @@ var currentCategoryId = Data.length;
 function CreateTableFromJSON() {    
     
     //Get Data from API
-    fetch("http://localhost:8090/category").then(res => {
+    fetch("http://localhost:8181/category").then(res => {
           return res.json();
         })
         .then((data) => {
@@ -94,7 +94,7 @@ function AddNewDeal() {
 
 function InsertRow(name) {
     let data = {'name': name}
-    fetch("http://localhost:8090/category", {
+    fetch("http://localhost:8181/category", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify(data)
@@ -119,7 +119,7 @@ function initiateUpdate(id){
 function updateRow(id, name){
     console.log(id)
     var data = {'id': id, 'name': name}
-    fetch("http://localhost:8090/category", {
+    fetch("http://localhost:8181/category", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify(data)
@@ -132,7 +132,7 @@ function updateRow(id, name){
 
 function DeleteRow(vendorId) {
      
-    fetch("http://localhost:8090/deleteCategory", {
+    fetch("http://localhost:8181/deleteCategory", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: vendorId

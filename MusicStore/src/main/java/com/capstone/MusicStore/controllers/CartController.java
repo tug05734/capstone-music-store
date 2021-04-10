@@ -23,7 +23,7 @@ public class CartController {
 	@CrossOrigin
 	public Iterable<Cart> getCartByUserId(@RequestBody int userId) {
 		System.out.println("Post hit");
-		return cartService.getCartItemsByUserId(userId);
+		return cartService.getCartItemsByUserIdAndStatus(userId, "New");
 	}
 	
 	@PostMapping("/getCartByUser")
@@ -41,7 +41,7 @@ public class CartController {
 	
 	@PostMapping("/cart")
 	@CrossOrigin
-	public Cart saveCartItem(@RequestBody CartSaveModel cartSaveModel) {
+	public Cart saveCartItem(CartSaveModel cartSaveModel) {
 		return cartService.saveCartItem(cartSaveModel);
 	}
 }

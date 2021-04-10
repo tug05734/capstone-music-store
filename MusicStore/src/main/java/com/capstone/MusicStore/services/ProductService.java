@@ -39,7 +39,12 @@ public class ProductService {
             if(p.getPrice().toString().contains(keyword) && !result.contains(p)) {
             	result.add(p);
             }
-            //Add for category and genre
+            if(p.getCategory().getName().toLowerCase().contains(keyword.toLowerCase()) && !result.contains(p)) {
+            	result.add(p);
+            }
+            if(p.getGenre().getName().toLowerCase().contains(keyword.toLowerCase()) && !result.contains(p)) {
+            	result.add(p);
+            }
         }
         return result;
     }

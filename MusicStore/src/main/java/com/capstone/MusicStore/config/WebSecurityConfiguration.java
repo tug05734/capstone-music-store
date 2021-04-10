@@ -53,6 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/orderByUserId").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/products/addCart/{id}").permitAll()
                 .antMatchers("/products/all").permitAll() //for testing
                 .antMatchers("/products/search").permitAll()
                 .antMatchers("/products/admin/all").permitAll()

@@ -31,9 +31,11 @@
                     <strong>Genre: </strong><span th:text="${genre}"></span><br><br>
                     <strong>Condition: </strong><span id="rows" th:text="${condition}"></span><br><br>
                     <strong>Price: </strong><span id="rows" th:text="${price}"> </span><br><br>
-                    <p id="rows"><strong>Quantity: </strong>
-                    <input type="number" name="quantity" id="quantity"></p>
-                    <a href="">Add to Cart</a>
+                    <form th:action="@{/products/addCart/{id}(id = ${productID})}" method="POST">
+                    	<label><strong>Quantity: </strong></label>
+                    	<input type="number" name="quantity" id="quantity"><br><br>
+                    	<button type="submit">Add to Cart</button>
+                    </form>
                 </div>
             </div>
     </div>

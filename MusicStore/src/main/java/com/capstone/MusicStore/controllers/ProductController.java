@@ -191,7 +191,8 @@ public class ProductController {
 		
 		CartSaveModel cartModel = new CartSaveModel();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByUserName(auth.getName());
+		//User user = userService.findUserByUserName(auth.getName());
+		User user = userService.findUserById(1);
 		Optional<Product> product = productService.FindRepositoryById(id);
 		cartModel.setUserId(user.getId());
 		cartModel.setProductId(product.get().getProductID());

@@ -73,7 +73,7 @@ function CreateLineItems(order) {
 
             var image = document.createElement("img");
             image.setAttribute("class", "cart-image")
-            image.src = items[j].product.imagePath;
+            image.src = '../../static'+ items[j].product.imagePath;
             image.alt = "No image available!";
 
             var span = document.createElement("span");

@@ -3,7 +3,7 @@
 var cartData = []
 userId = 1;
 function CreateCartFromJSON() {
-    fetch("http://localhost:8090/getCartByUserId", {
+    fetch("http://localhost:8181/getCartByUserId", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: userId

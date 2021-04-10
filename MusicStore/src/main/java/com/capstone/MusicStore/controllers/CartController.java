@@ -41,7 +41,7 @@ public class CartController {
 	
 	@PostMapping("/cart")
 	@CrossOrigin
-	public Cart saveCartItem(@RequestBody CartSaveModel cartSaveModel) {
+	public Cart saveCartItem(CartSaveModel cartSaveModel) {
 		return cartService.saveCartItem(cartSaveModel);
 	}
 }

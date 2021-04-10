@@ -137,7 +137,7 @@ function PlaceOrder(){
         console.log(data)
         document.getElementById("modalBody").innerHTML="";
         $('#exampleModal').modal('hide')
-        alert('order placed successfully!')
         CreateCartFromJSON();
+        window.location.href = 'confirmation.html';
     })
 }

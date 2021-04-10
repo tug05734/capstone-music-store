@@ -139,6 +139,6 @@ function PlaceOrder(){
         document.getElementById("modalBody").innerHTML="";
         $('#exampleModal').modal('hide')
         CreateCartFromJSON();
-        window.location.href = 'confirmation.html';
+        window.location.href = '../order/confirmation.html';
     })
 }

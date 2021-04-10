@@ -30,7 +30,8 @@ function CreateLineItems(items) {
 
         var image = document.createElement("img");
         image.setAttribute("class", "cart-image")
-        image.src = "images/3.png";
+        image.src = items[i].product.imagePath;
+        image.alt = "No image available!";
 
         var span = document.createElement("span");
         span.setAttribute("class", "badge badge-primary badge-pill")

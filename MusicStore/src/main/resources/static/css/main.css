@@ -1,0 +1,19 @@
+.page-holder {
+    min-height: 100vh;
+}
+
+.bg-cover {
+    background-size: cover !important;
+}
+
+.panel-transparent {
+    background: rgba(77, 56, 92, 0.8);
+}
+.of {
+    object-fit: cover;
+    /*
+    object-fit: scale-down;
+    object-fit: contain;
+    object-fit: fit;
+    */
+}

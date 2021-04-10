@@ -54,6 +54,21 @@ public class User {
     @Column(name = "active")
     private Boolean active;
     
+    @Column(name = "street")
+    private String street;
+    
+    @Column(name = "city")
+    private String city;
+    
+    @Column(name = "state")
+    private String state;
+    
+    @Column(name = "zip")
+    private int zip;
+    
+    @Column(name = "card")
+    private int card;
+    
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -121,11 +136,52 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public int getZip() {
+		return zip;
+	}
+
+	public void setZip(int zip) {
+		this.zip = zip;
+	}
+
+	public int getCard() {
+		return card;
+	}
+
+	public void setCard(int card) {
+		this.card = card;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", password=" + password + ", name="
-				+ name + ", lastName=" + lastName + ", active=" + active + ", roles=" + roles + "]";
+				+ name + ", lastName=" + lastName + ", active=" + active + ", street=" + street + ", city=" + city
+				+ ", state=" + state + ", zip=" + zip + ", card=" + card + ", roles=" + roles + "]";
 	}
-    	
+	
 }

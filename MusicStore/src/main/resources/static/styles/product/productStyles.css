@@ -5,10 +5,11 @@
 }
 
 #header{
+	color: white;
     text-align: center;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    background-color: lightseagreen;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color: rgb(128, 0, 255);
 }
 
 #search{

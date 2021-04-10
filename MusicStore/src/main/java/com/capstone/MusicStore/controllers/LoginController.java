@@ -23,11 +23,18 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
+    }
+    
+    @RequestMapping(value= {"/"},  method = RequestMethod.GET)
+    public ModelAndView index() {
+    	ModelAndView modelAndView = new ModelAndView();
+    	modelAndView.setViewName("index");
+    	return modelAndView;
     }
 
 
@@ -66,7 +73,7 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userName", "Welcome " + user.getName());
         modelAndView.addObject("adminMessage","Welcome to User Home Page");
         modelAndView.setViewName("user/home");
         return modelAndView;

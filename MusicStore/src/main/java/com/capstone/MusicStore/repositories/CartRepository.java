@@ -9,4 +9,6 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     public Iterable<Cart> findByUser(User user);
     
     public Iterable<Cart> findByUserId(int userId);
+    
+    public Iterable<Cart> findByUserIdAndStatus(int userId, String status);
 }

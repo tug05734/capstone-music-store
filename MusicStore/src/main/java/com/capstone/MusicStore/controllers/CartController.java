@@ -23,7 +23,7 @@ public class CartController {
 	@CrossOrigin
 	public Iterable<Cart> getCartByUserId(@RequestBody int userId) {
 		System.out.println("Post hit");
-		return cartService.getCartItemsByUserId(userId);
+		return cartService.getCartItemsByUserIdAndStatus(userId, "New");
 	}
 	
 	@PostMapping("/getCartByUser")

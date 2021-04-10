@@ -2,6 +2,7 @@
 //global variables
 var cartData = []
 userId = 1;
+var TotalAmount = 0;
 function CreateCartFromJSON() {
     fetch("http://localhost:8181/getCartByUserId", {
         method: "POST",
@@ -18,8 +19,10 @@ function CreateCartFromJSON() {
 
 function CreateLineItems(items) {
     var list = document.createElement("ul");
+    TotalAmount = 0;
     list.setAttribute("class", "list-group")
     for (i = 0; i < items.length; i++) {
+        TotalAmount = TotalAmount + items[i].price;
         var anchor = document.createElement("a");
         anchor.href = "#";
         anchor.innerText = items[i].product.productName;
@@ -40,7 +43,7 @@ function CreateLineItems(items) {
 
         var deleteIcon = document.createElement("img");
         deleteIcon.setAttribute("class", "delete-image")
-        deleteIcon.setAttribute("onclick", "deleteCartItem("+items[i].id+")")
+        deleteIcon.setAttribute("onclick", "deleteCartItem(" + items[i].id + ")")
         deleteIcon.src = "images/delete.png";
 
         var elem = document.createElement("li");
@@ -49,17 +52,24 @@ function CreateLineItems(items) {
         elem.appendChild(anchor);
         elem.appendChild(text);
         elem.appendChild(span);
-        
+
         elem.appendChild(deleteIcon);
         list.appendChild(elem);
     }
     var divContainer = document.getElementById("showData");
     divContainer.innerHTML = "";
     divContainer.appendChild(list);
+    var h2 = document.getElementById("totalAmount");
+    h2.innerText = "Total Amount: "+ TotalAmount
+    if(items.length == 0){
+        document.getElementById("totalAmount").style.display = 'none';
+        document.getElementById("buyNowButton").style.display = 'none';
+        document.getElementById("emptyCart").style.display = '';
+    }
 }
 
-function deleteCartItem(itemId){
-    fetch("http://localhost:8090/deleteCartById", {
+function deleteCartItem(itemId) {
+    fetch("http://localhost:8181/deleteCartById", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: itemId
@@ -70,7 +80,64 @@ function deleteCartItem(itemId){
     })
 }
 
-function OrderNow(){
+function OrderNow() {
     //To be implemented
-    alert('order placed successfully!')
+    $('#exampleModal').modal('show')
+
+    var col = ['Product', 'Quantity', 'Price', 'Total'];
+
+    // CREATE DYNAMIC TABLE.
+    var table = document.createElement("table");
+    table.setAttribute('class', 'table table-striped table-hover')
+
+    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+    var tr = table.insertRow(-1);                   // TABLE ROW.
+
+    for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th");      // TABLE HEADER.
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+    }
+    for (i = 0; i < cartData.length; i++) {
+        tr = table.insertRow(-1);
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.productName;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].quantity;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.price;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].price;
+    }
+
+    var divContainer = document.getElementById("productList");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+    var h4 = document.getElementById("totalAmountModal");
+    h4.innerText = "Total Amount: "+ TotalAmount
+}
+
+function PlaceOrder(){
+    console.log(cartData)
+    console.log(cartData.user)
+    var data = {"user": cartData[0].user, "amount": TotalAmount, "cart": cartData, "status": "confirmed"}
+    console.log(data)
+    fetch("http://localhost:8181/order", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).then((data) => {
+        console.log(data)
+        document.getElementById("modalBody").innerHTML="";
+        $('#exampleModal').modal('hide')
+        alert('order placed successfully!')
+        CreateCartFromJSON();
+    })
 }

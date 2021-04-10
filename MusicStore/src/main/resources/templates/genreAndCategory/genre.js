@@ -6,7 +6,7 @@ var Data = [
 function CreateTableFromJSON() {
 
     //Get Data from API
-    fetch("http://localhost:8090/genre").then(res => {
+    fetch("http://localhost:8181/genre").then(res => {
         return res.json();
     })
         .then((data) => {
@@ -93,7 +93,7 @@ function AddNewCategory() {
     optionId++;
     //Get Data from API
     var categories = []
-    fetch("http://localhost:8090/category").then(res => {
+    fetch("http://localhost:8181/category").then(res => {
         return res.json();
     })
         .then((data) => {
@@ -146,7 +146,7 @@ function InsertRow(name) {
     console.log(categories)
     let genreData = { 'name': name, 'categories': categories }
     console.log(genreData);
-    fetch("http://localhost:8090/genre", {
+    fetch("http://localhost:8181/genre", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify(genreData)
@@ -169,7 +169,7 @@ function initiateUpdate(id) {
             console.log(Data[i].categories)
             //Get Data from API
             var categories = []
-            fetch("http://localhost:8090/category").then(res => {
+            fetch("http://localhost:8181/category").then(res => {
                 return res.json();
             })
                 .then((data) => {
@@ -219,7 +219,7 @@ function updateRow(id, name) {
     console.log(categories)
     let genreData = { 'id': id, 'name': name, 'categories': categories }
     console.log(genreData);
-    fetch("http://localhost:8090/genre", {
+    fetch("http://localhost:8181/genre", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify(genreData)
@@ -232,7 +232,7 @@ function updateRow(id, name) {
 
 function DeleteRow(genreId) {
 
-    fetch("http://localhost:8090/deleteGenre", {
+    fetch("http://localhost:8181/deleteGenre", {
         method: "POST",
         headers: new Headers({ 'content-type': 'application/json' }),
         body: genreId

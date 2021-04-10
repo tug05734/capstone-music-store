@@ -28,10 +28,16 @@
                 <div>
                 	<form th:action="@{/products/details/{id}(id = ${productID})}" method="POST">
                 		<label><strong>Product Name: </strong></label>
-                		<input type="text" th:value="${name}" name="name"><br>
+                		<input type="text" th:value="${name}" name="name"><br><br>
 	                    <label><strong>Category: </strong></label>
+	                    <select name="category">
+	                    	<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+	                    </select>
 	                    <br><br>
                     	<label><strong>Genre: </strong></label>
+                    	<select name="genre">
+	                    	<option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+	                    </select>
                     	<br><br>
 	                    <label><strong>Condition: </strong></label>
 	                    <select name="condition">
@@ -42,7 +48,9 @@
 	                    	<option>Poor</option>
 	                    </select><br><br>
 	            		<label><strong>Product Price: </strong></label>
-	            		<input type="text" th:value="${price}" name="price"><br>
+	            		<input type="text" th:value="${price}" name="price"><br><br>
+	            		<label><strong>Image Path: </strong></label>
+	            		<input type="text" th:value="${image}" name="image"><br><br>
 	            		<button type="submit">Save</button>
                 	</form>
                 </div>

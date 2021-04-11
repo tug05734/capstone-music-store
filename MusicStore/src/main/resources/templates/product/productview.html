@@ -6,10 +6,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->          
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+          
+    <link rel="stylesheet" href="/styles/product/footer.css">
+   	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    
+    
     <link rel="stylesheet" type="text/css" th:href="@{/styles/product/productStyles.css}">
+    <script src="https://kit.fontawesome.com/c65e45056f.js" crossorigin="anonymous"></script>
+    
 
     <title>Product View</title>
 
@@ -19,39 +32,7 @@
 	
 	
 	
-	<div class="navbar navbar-expand-lg navbar-dark bg-secondary">
-		<div class="container-fluid">
-			<div class="text-center">
-				<a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
-			</div>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto md-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/products/all">Store</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/user/home">Your Account</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-
-
-
-    <div id="header"> 
-        <h2>Store page</h2>
-    </div>
-    
-    <div class="navbar navbar-expand-lg navbar-dark bg-secondary">
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="text-center">
                 <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
@@ -68,50 +49,109 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Placeholder</a>
+					<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
                     </li>
+                    <li class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Your Account
+			          </a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
+			          </ul>
+			        </li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div id="search_block">
-        <div id="search_bar">
-            <form th:action="@{/products/search}" method="POST">
-                <input type="text" name="search" id="search" placeholder="Search Our Catalog (Name, Category, Genre)">
-                <input type="submit" id="search_button" value="Search">
-            </form>
+
+
+
+    <div class="m-0 p-0"> 
+		<h2 class="text-center pt-2 pb-3 text-white" style="background-color: rgb(130,101,167);">Store Page</h2>
+    </div>
+	
+	<div style="background: url(/images/purple-crowd.png)" class="page-holder bg-cover m-0 p-0">
+		
+	    <div id="search_block">
+	        <div id="search_bar">
+	            <form th:action="@{/products/search}" method="POST">
+	                <input class="border rounded" type="text" name="search" id="search" placeholder="Search Our Catalog (Name, Category, Genre)">
+	                <input class="border rounded" type="submit" id="search_button" value="Search">
+	            </form>
+	        </div>
+	    </div>
+	   
+	
+	    <div id="catalog_listing">
+	            <tr th:each="product: ${products}">
+	            	<td>
+	            		<div id="cards">
+	            			<a th:href="@{/products/details/{id}(id = ${product.productID})}" class="links">
+	            			<div>
+			            		<div class="col border rounded-3 text-white"  style="background-color:rgba(130,101,167,0.7);">
+			            			<img alt="Thumbnail" th:src="${product.imagePath}" id="thumbnail">
+					            	<p th:text="${product.category.name}"></p>
+					            	<p th:text="${product.genre.name}"></p>
+					            	<p th:text="${product.condition}"></p>
+					            	$<span th:text="${product.price}"></span>
+				            	</div>
+	            			</div>
+	            		</a>
+	            		</div>
+	            	</td>
+	            		
+	            	
+	               <!-- <td th:text="${product.condition}"></td>
+	                <td th:text="${product.price}"></td>  -->
+	            </tr>
+	    </div>
+
+	</div>
+	
+    <div class="footer">
+        <div class="inner_footer">
+            <div class="logo_container">
+                <img src="/images/n-music-logo-v7-nobackground.png" alt="">
+            </div>
+            <div class="footer_cols">
+                <h3>Download Our App</h3>
+                <p>Available on Android and iOS devices</p>
+                <a href="https://play.google.com/store"><img src="/images/playstore.png" alt=""></a>
+                <a href="https://www.apple.com/app-store/"><img src="/images/appstore.png" alt=""></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="">NuRewards</a></li>
+                    <li><a href="">Artist Collaboration Program</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer_cols">
+                <h3>Our Partner</h3>
+                <a href="https://hcl.com/"><img src="/images/hcl.png" alt="" style="width:80px;height:auto;"></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Follow Us</h3>
+                <li class="social"><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                <li class="social"><a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                <li class="social"><a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                <li class="social"><a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a></li>
+            </div>
+            <div class="footer_cols">
+                <h3>Contact Us</h3>
+                <span>
+                    <i class="fas fa-envelope"></i> contact@numusic.com
+                </span>
+            </div>
         </div>
     </div>
-   
-
-    <div id="catalog_listing">
-            <tr th:each="product: ${products}">
-            	<td>
-            		<div id="cards">
-            			<a th:href="@{/products/details/{id}(id = ${product.productID})}" class="links">
-            			<div>
-		            		<div class="col">
-		            			<img alt="Thumbnail" th:src="${product.imagePath}" id="thumbnail">
-				            	<h4 th:text="${product.productName}"></h4>
-				            	<p th:text="${product.category.name}"></p>
-				            	<p th:text="${product.genre.name}"></p>
-				            	<p th:text="${product.condition}"></p>
-				            	$<span th:text="${product.price}"></span>
-			            	</div>
-            			</div>
-            		</a>
-            		</div>
-            	</td>
-            		
-            	
-               <!-- <td th:text="${product.condition}"></td>
-                <td th:text="${product.price}"></td>  -->
-            </tr>
-    </div>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

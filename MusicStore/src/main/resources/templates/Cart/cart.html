@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/product/footer.css">
+        
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -69,73 +71,130 @@
 
 <body onload="getCurrentUser()">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="table_example.html">MUSIC</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="cart.html">Cart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="genre.html"></a>
-                </li>
-            </ul>
-        </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Logout</a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		     <div class="text-center">
+                <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
+                    </li>
+					<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
+                    </li>
+                    <li class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Your Account
+			          </a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
+			          </ul>
+			        </li>
+                </ul>
+            </div>
+        </div>       
+
     </nav>
     <!--navbar end  -->
-    <div class="contain-fluid">
-        <div class="row" style="margin-left: 20px; margin-top: 20px;">
-            <div class="column-md-8">
-                <h2 style="margin-bottom: 30px;">Cart Items</h2>
-                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
-                <p id="showData"></p>
-                <h2 id="totalAmount" style="margin-bottom: 20px;"></h2>
-                <button id="buyNowButton" type="button" class="btn btn-primary btn-lg" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
-                    Buy Now
-                </button>
+ 	<div style="background: url(/images/home-background.png)" class="page-holder bg-cover m-0 p-0">
+ 	
+	    <div class="contain-fluid">
+	        <div class="row">
+	            <div class="column-md-8 mx-auto pb-5 pt-5">
+	                <h2 style="margin-bottom: 30px;">Cart Items</h2>
+	                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
+	                <p id="showData"></p>
+	                <h2 class="border rounded p-3 text-white" id="totalAmount" style="margin-bottom: 20px; background-color: rgb(40,27,61);"></h2>
+	                <button id="buyNowButton" type="button" class="btn btn-lg rounded-pill" style="background-color: rgb(216,63,135);" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
+	                    Buy Now
+	                </button>
+	            </div>
+	        </div>
+	    </div>
+	
+	     <!-- Modal Add Genre-->
+	  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <h5 class="modal-title" id="exampleModalLabel">Verify Order Details</h5>
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="reset()">
+	            <span aria-hidden="true">&times;</span>
+	          </button>
+	        </div>
+	        <div class="modal-body" id="modalBody">
+	            
+	          
+	            <label>Shipping Address</label>
+	            <p id="shippingAddress"></p>
+	            <label>Billing Address</label>
+	            <p id="billingAddress"></p>
+	            <p id="productList"></p>
+	            <h4 id="totalAmountModal"></h4>
+	       
+	        </div>
+	        <div class="modal-footer">
+	            <button type="button" class="btn btn-primary" onclick="PlaceOrder()">Place Order</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    <!-- Modal End -->
+
+
+    <div class="footer">
+        <div class="inner_footer">
+            <div class="logo_container">
+                <img src="/images/n-music-logo-v7-nobackground.png" alt="">
+            </div>
+            <div class="footer_cols">
+                <h3>Download Our App</h3>
+                <p>Available on Android and iOS devices</p>
+                <a href="https://play.google.com/store"><img src="/images/playstore.png" alt=""></a>
+                <a href="https://www.apple.com/app-store/"><img src="/images/appstore.png" alt=""></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="">NuRewards</a></li>
+                    <li><a href="">Artist Collaboration Program</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer_cols">
+                <h3>Our Partner</h3>
+                <a href="https://hcl.com/"><img src="/images/hcl.png" alt="" style="width:80px;height:auto;"></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Follow Us</h3>
+                <li class="social"><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                <li class="social"><a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                <li class="social"><a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                <li class="social"><a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a></li>
+            </div>
+            <div class="footer_cols">
+                <h3>Contact Us</h3>
+                <span>
+                    <i class="fas fa-envelope"></i> contact@numusic.com
+                </span>
             </div>
         </div>
     </div>
 
-     <!-- Modal Add Genre-->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Verify Order Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="reset()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" id="modalBody">
-            
-          
-            <label>Shipping Address</label>
-            <p id="shippingAddress"></p>
-            <label>Billing Address</label>
-            <p id="billingAddress"></p>
-            <p id="productList"></p>
-            <h4 id="totalAmountModal"></h4>
-       
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="PlaceOrder()">Place Order</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- Modal End -->
+
 
 <!-- JS Begin -->
 <script>

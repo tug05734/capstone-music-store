@@ -1,6 +1,7 @@
 package com.capstone.MusicStore.controllers;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,12 +192,12 @@ public class ProductController {
 		
 		CartSaveModel cartModel = new CartSaveModel();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//User user = userService.findUserByUserName(auth.getName());
-		User user = userService.findUserById(1);
+		User user = userService.findUserByUserName(auth.getName());
+		//User user = userService.findUserById(1);
 		Optional<Product> product = productService.FindRepositoryById(id);
 		cartModel.setUserId(user.getId());
 		cartModel.setProductId(product.get().getProductID());
-		cartModel.setPrice(product.get().getPrice());
+		cartModel.setPrice(product.get().getPrice().multiply(BigDecimal.valueOf(quantity)));
 		cartModel.setQuantity(quantity);
 		cartController.saveCartItem(cartModel);
 		return showProductDetails(id);

@@ -30,7 +30,7 @@ function CreateLineItems(items) {
 
         var image = document.createElement("img");
         image.setAttribute("class", "cart-image")
-        image.src = '../../static' + items[i].product.imagePath;
+        image.src = items[i].product.imagePath;
         image.alt = "No image available!";
 
         var span = document.createElement("span");
@@ -139,6 +139,6 @@ function PlaceOrder(){
         document.getElementById("modalBody").innerHTML="";
         $('#exampleModal').modal('hide')
         CreateCartFromJSON();
-        window.location.href = '../order/confirmation.html';
+        window.location.href = 'confirmationView';
     })
 }

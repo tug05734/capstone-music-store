@@ -43,12 +43,6 @@
 					<li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
                     </li>
-					<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/categoryView">Category</a>
-                    </li>
-					<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/genreView">Genre</a>
-                    </li>
                     <li class="nav-item dropdown">
 			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			            Your Account
@@ -62,6 +56,12 @@
 			        </li>
 			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                 		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
 			        </li>
                 </ul>
             </div>
@@ -80,14 +80,18 @@
 					<div class="row">
 						<div class="col-md-4">
 						</div>
-						<div class="col-md-4 rounded-3">
-							<table class="mt-5">
-								<tr>
-									<td sec:authorize="hasAuthority('USER')" class="p-3">View Order</td>
-								</tr>
-								<tr>
-									<td sec:authorize="hasAuthority('USER')">Address</td>
-							</table>
+						<div class="col-md-4 rounded-3 text-center">
+							
+							<p sec:authorize="hasAuthority('USER')" class="p-3">
+								<a class="pt-2 pb-2 p-5 rounded bg-secondary text-black" href="/orderView" style="text-decoration: none; color: white;">View your orders</a>
+							</p>
+							<p sec:authorize="hasAuthority('USER')" class="p-3">
+								<a class="pt-2 pb-2 p-5 rounded bg-secondary text-black" href="/orderView" style="text-decoration: none; color: white;">Edit Address</a>
+							</p>
+							<p sec:authorize="hasAuthority('USER')" class="p-3">
+								<a class="pt-2 pb-2 p-5 rounded bg-secondary text-black" href="/orderView" style="text-decoration: none; color: white;">Edit Payment Card</a>
+							</p>
+
 						</div>
 						<div class="col-md-4">
 						</div>

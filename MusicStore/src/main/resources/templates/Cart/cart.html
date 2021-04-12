@@ -87,20 +87,21 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/home">Your Account</a>
+                    </li>
 					<li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
                     </li>
-                    <li class="nav-item dropdown">
-			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			            Your Account
-			          </a>
-			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
-			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-			            <li><hr class="dropdown-divider"></li>
-			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
-			          </ul>
-			        </li>
+					<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/orderView">Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/categoryView">Category</a>
+                    </li>
+					<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/genreView">Genre</a>
+                    </li>
                 </ul>
             </div>
         </div>       
@@ -354,7 +355,7 @@ function PlaceOrder(){
         document.getElementById("modalBody").innerHTML="";
         $('#exampleModal').modal('hide')
         CreateCartFromJSON();
-        window.location.href = '../order/confirmation.html';
+        window.location.href = '/confirmationView';
     })
 }
 </script>

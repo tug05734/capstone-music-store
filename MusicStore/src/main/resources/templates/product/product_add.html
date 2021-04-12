@@ -87,9 +87,17 @@
                 <div>
                 	<form th:action="@{/products/admin/add}" method="POST">
                 		<label><strong>Product Name: </strong></label>
-                		<input class="rounded border" type="text" placeholder="Name" name="name"><br>
-	                    <p id="rows"><strong>Category:</strong> Instrument</p>
-	                    <p id="rows"><strong>Genre:</strong> Strings</p>
+                		<input class="rounded border" type="text" placeholder="Name" name="name"><br><br>
+	                    <label><strong>Category: </strong></label>
+	                    <select name="category">
+	                    	<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+	                    </select>
+	                    <br><br>
+	                    <label><strong>Genre: </strong></label>
+	                    <select name="genre">
+	                    	<option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+	                    </select>
+                    		<br><br>
 	                    <label><strong>Condition: </strong></label>
 	                    <select class="rounded" name="condition">
 	                    	<option selected>New</option>

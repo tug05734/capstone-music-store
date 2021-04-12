@@ -125,7 +125,7 @@ public class ProductController {
 																		@RequestParam(name = "category")int category,
 																		@RequestParam(name = "genre")int genre) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("product/product_details_view");
+		mav.setViewName("product/product_admin_view");
 		Optional<Product> product = productService.FindRepositoryById(id);
 		Product newProduct = product.get();
 		newProduct.setProductName(productName);

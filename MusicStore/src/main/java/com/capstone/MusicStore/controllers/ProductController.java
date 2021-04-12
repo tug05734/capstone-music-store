@@ -167,19 +167,27 @@ public class ProductController {
 	public ModelAndView showAddProduct() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("product/product_add");
+		Iterable<Category> categories = categoryService.GetAllCategories();
+		Iterable<Genre> genres = genreService.GetAllGenre();
+		mav.getModelMap().addAttribute("categories", categories);
+		mav.getModelMap().addAttribute("genres" ,genres);
 		return mav;
 	}
 	
 	@PostMapping("/admin/add")
 	public ModelAndView addProduct(@RequestParam(name="name")String productName, @RequestParam(name="condition")String condition,
-																				@RequestParam(name="price")String price,
-																				@RequestParam(name="imgPath")String imagePath) {
+																@RequestParam(name="price")String price,
+																@RequestParam(name="imgPath")String imagePath,
+				      												@RequestParam(name = "category")int category,
+																@RequestParam(name = "genre")int genre) {
 		
 		Product product = new Product();
 		product.setProductName(productName);
 		product.setCondition(condition);
 		product.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
 		product.setImagePath(imagePath);
+		product.setCategory(categoryService.getCategory(category));
+		product.setGenre(genreService.getGenre(genre));
 		productService.AddProduct(product);
 		
 		return showAdminAllProducts();

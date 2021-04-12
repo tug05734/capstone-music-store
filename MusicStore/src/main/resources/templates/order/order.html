@@ -165,6 +165,7 @@
     <script>
         var orderData = []
         userId = 0;
+        var currentUser;
 
         function getCurrentUser() {
             fetch("http://localhost:8181/getCurrentUser", {
@@ -175,6 +176,7 @@
                 return res.json();
             }).then((data) => {
                 userId = data.id
+                currentUser = data;
                 console.log(userId)
                 CreateCartFromJSON();
             })
@@ -229,6 +231,17 @@
                 totalAmount.setAttribute("style", "margin-left:10px;")
                 totalAmount.innerText = "Total Amount: " + order[i].amount;
                 cardheader.appendChild(totalAmount);
+
+                var orderDate = document.createElement("h5");
+                orderDate.setAttribute("style", "margin-left:10px;")
+                var d = new Date(order[i].date);
+                orderDate.innerText = "Order Date: " + d.toLocaleString("en-US");
+                cardheader.appendChild(orderDate);
+
+                var shippingAddress = document.createElement("h5");
+                shippingAddress.setAttribute("style", "margin-left:10px;")
+                shippingAddress.innerText = "Shipping Address: " + currentUser.street +', ' + currentUser.city + ', ' + currentUser.state + ', ' + currentUser.zip;
+                cardheader.appendChild(shippingAddress);
 
                 var collapse = document.createElement("div");
                 collapse.setAttribute("id", "collapse" + i)

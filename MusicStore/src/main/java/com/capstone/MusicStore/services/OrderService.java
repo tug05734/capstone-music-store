@@ -1,5 +1,7 @@
 package com.capstone.MusicStore.services;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ OrderRepository orderRepository;
 CartRepository cartRepository;
 
 public Orders saveOrder(Orders order) {
+	order.setDate(new Date());
 	Orders savedOrder = orderRepository.save(order);
     List<Cart> cartItems = savedOrder.getCart();
     for(Cart cartItem: cartItems) {

@@ -153,8 +153,6 @@
 	          
 	            <label>Shipping Address</label>
 	            <p id="shippingAddress"></p>
-	            <label>Billing Address</label>
-	            <p id="billingAddress"></p>
 	            <p id="productList"></p>
 	            <h4 id="totalAmountModal"></h4>
 
@@ -219,6 +217,7 @@
 var cartData = []
 userId = 0;
 var TotalAmount = 0;
+var currentUser;
 
 function getCurrentUser() {
     fetch("http://localhost:8181/getCurrentUser", {
@@ -229,6 +228,7 @@ function getCurrentUser() {
         return res.json();
     }).then((data) => {
         userId = data.id
+        currentUser = data;
         console.log(userId)
         CreateCartFromJSON();
     })
@@ -351,6 +351,8 @@ function OrderNow() {
     divContainer.appendChild(table);
     var h4 = document.getElementById("totalAmountModal");
     h4.innerText = "Total Amount: "+ TotalAmount
+    var shippingAddress = document.getElementById("shippingAddress");
+    shippingAddress.innerHTML = currentUser.street +'<br>' + currentUser.city + '<br>' + currentUser.state + '<br>' + currentUser.zip;
 }
 
 function PlaceOrder(){

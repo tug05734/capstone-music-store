@@ -77,24 +77,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto md-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Home'" th:href="@{/user/home}"/></a>
+			        </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
                     </li>
-					<li class="nav-item">
+					<li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
                     </li>
-                    <li class="nav-item dropdown">
-			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			            Your Account
 			          </a>
-			          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			            <a class="dropdown-item" href="/user/home">View Account</a>
-			            <a class="dropdown-item" th:href="@{/logout}">Logout</a>
-			            <div class="dropdown-divider"></div>
-			            <a class="dropdown-item" href="/orderView">Order</a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
 			          </ul>
 			        </li>
 			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
@@ -105,6 +108,9 @@
 			        </li>
 			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                 		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Logout'" th:href="@{/logout}"/></a>
 			        </li>
                 </ul>
             </div>

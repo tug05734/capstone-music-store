@@ -45,16 +45,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto md-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Home'" th:href="@{/user/home}"/></a>
+			        </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
                     </li>
-					<li class="nav-item">
+					<li sec:authorize="hasAuthority('USER')" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item dropdown">
 			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			            Your Account
 			          </a>
@@ -74,10 +77,13 @@
 			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                 		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
 			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Logout'" th:href="@{/logout}"/></a>
+			        </li>
                 </ul>
             </div>
         </div>
-    </div>
+    </div>>
 
     <div id="product_details">
             <div id="column_pic">

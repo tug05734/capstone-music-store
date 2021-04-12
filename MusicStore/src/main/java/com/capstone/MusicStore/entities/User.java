@@ -1,5 +1,6 @@
 package com.capstone.MusicStore.entities;
 
+import java.math.BigInteger;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -55,19 +56,22 @@ public class User {
     private Boolean active;
     
     @Column(name = "street")
+    @NotEmpty(message ="*Please provide your street")
     private String street;
     
     @Column(name = "city")
+    @NotEmpty(message="*Please provide your city")
     private String city;
     
     @Column(name = "state")
+    @NotEmpty(message="Please provide your state")
     private String state;
     
     @Column(name = "zip")
     private int zip;
     
     @Column(name = "card")
-    private int card;
+    private BigInteger card;
     
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -169,11 +173,11 @@ public class User {
 		this.zip = zip;
 	}
 
-	public int getCard() {
+	public BigInteger getCard() {
 		return card;
 	}
 
-	public void setCard(int card) {
+	public void setCard(BigInteger card) {
 		this.card = card;
 	}
 

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+
+
+<head>
+    <title>Vendor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles/product/footer.css">
+        
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </script>
+    <style>
+        th,
+        td,
+        p,
+        input {
+            font: 14px Verdana;
+        }
+
+        table,
+        th,
+        td {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .select-margin {
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        .cart-image {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        .delete-image {
+            max-width: 30px;
+            max-height: 30px;
+        }
+
+        .options {
+            width: 50px;
+            position: absolute;
+            right: 0px;
+        }
+    </style>
+    <script src="cart.js"></script>
+
+
+
+</head>
+
+<body onload="getCurrentUser()">
+    <!-- Navbar -->
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="text-center">
+                <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Home'" th:href="@{/user/home}"/></a>
+			        </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
+                    </li>
+					<li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Your Account
+			          </a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
+			          </ul>
+			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Logout'" th:href="@{/logout}"/></a>
+			        </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <!--navbar end  -->
+ 	<div style="background: url(/images/home-background.png)" class="page-holder bg-cover m-0 p-0">
+ 	
+	    <div class="container-fluid">
+	        <div class="row">
+	            <div class="col-md-6 mx-auto pb-5 pt-5">
+	                <h2 style="margin-bottom: 30px;">Cart Items</h2>
+	                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
+	                <p id="showData"></p>
+	                <h2 class="border rounded p-3 text-white" id="totalAmount" style="margin-bottom: 20px; background-color: rgb(40,27,61);"></h2>
+	                <button id="buyNowButton" type="button" class="btn btn-lg rounded-pill" style="background-color: rgb(216,63,135);" onclick="OrderNow()" data-toggle="modal" data-target="#exampleModal">
+	                    Buy Now
+	                </button>
+	            </div>
+	        </div>
+	    </div>
+	
+	     <!-- Modal Add Genre-->
+	  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <h5 class="modal-title" id="exampleModalLabel">Verify Order Details</h5>
+	          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"onclick="reset()">
+	          </button>
+	        </div>
+	        <div class="modal-body" id="modalBody">
+	            
+	          
+	            <label>Shipping Address</label>
+	            <p id="shippingAddress"></p>
+	            <p id="productList"></p>
+	            <h4 id="totalAmountModal"></h4>
+
+	       
+	        </div>
+	        <div class="modal-footer">
+	            <button type="button" class="btn btn-primary" onclick="PlaceOrder()">Place Order</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    <!-- Modal End -->
+
+
+    <div class="footer">
+        <div class="inner_footer">
+            <div class="logo_container">
+                <img src="/images/n-music-logo-v7-nobackground.png" alt="">
+            </div>
+            <div class="footer_cols">
+                <h3>Download Our App</h3>
+                <p>Available on Android and iOS devices</p>
+                <a href="https://play.google.com/store"><img src="/images/playstore.png" alt=""></a>
+                <a href="https://www.apple.com/app-store/"><img src="/images/appstore.png" alt=""></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="">NuRewards</a></li>
+                    <li><a href="">Artist Collaboration Program</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer_cols">
+                <h3>Our Partner</h3>
+                <a href="https://hcl.com/"><img src="/images/hcl.png" alt="" style="width:80px;height:auto;"></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Follow Us</h3>
+                <li class="social"><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                <li class="social"><a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                <li class="social"><a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                <li class="social"><a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a></li>
+            </div>
+            <div class="footer_cols">
+                <h3>Contact Us</h3>
+                <span>
+                    <i class="fas fa-envelope"></i> contact@numusic.com
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- JS Begin -->
+<script>
+    
+//global variables
+var cartData = []
+userId = 0;
+var TotalAmount = 0;
+var currentUser;
+
+function getCurrentUser() {
+    fetch("http://localhost:8181/getCurrentUser", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).then((data) => {
+        userId = data.id
+        currentUser = data;
+        console.log(userId)
+        CreateCartFromJSON();
+    })
+}
+
+function CreateCartFromJSON() {
+    fetch("http://localhost:8181/getCartByUserId", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: userId
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).then((data) => {
+        cartData = data;
+        CreateLineItems(cartData);
+    })
+}
+
+function CreateLineItems(items) {
+    var list = document.createElement("ul");
+    TotalAmount = 0;
+    list.setAttribute("class", "list-group")
+    for (i = 0; i < items.length; i++) {
+        TotalAmount = TotalAmount + items[i].price;
+        var anchor = document.createElement("a");
+        anchor.href = "#";
+        anchor.innerText = items[i].product.productName;
+        anchor.setAttribute("style", "margin-left:20px")
+
+        var image = document.createElement("img");
+        image.setAttribute("class", "cart-image")
+        image.src = items[i].product.imagePath;
+        image.alt = "No image available!";
+
+        var span = document.createElement("span");
+        span.setAttribute("class", "badge badge-primary badge-pill")
+        span.setAttribute("style", "margin-left:50px; margin-right:50px")
+        span.innerText = items[i].quantity;
+
+        var text = document.createElement("b");
+        text.innerText = "Price: " + items[i].price;
+        text.setAttribute("style", "margin-left:200px")
+
+        var deleteIcon = document.createElement("img");
+        deleteIcon.setAttribute("class", "delete-image")
+        deleteIcon.setAttribute("onclick", "deleteCartItem(" + items[i].id + ")")
+        deleteIcon.src = "images/delete.png";
+
+        var elem = document.createElement("li");
+        elem.setAttribute("class", "list-group-item shadow p-3 mb-5 bg-white rounded")
+        elem.appendChild(image);
+        elem.appendChild(anchor);
+        elem.appendChild(text);
+        elem.appendChild(span);
+
+        elem.appendChild(deleteIcon);
+        list.appendChild(elem);
+    }
+    var divContainer = document.getElementById("showData");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(list);
+    var h2 = document.getElementById("totalAmount");
+    h2.innerText = "Total Amount: "+ TotalAmount
+    if(items.length == 0){
+        document.getElementById("totalAmount").style.display = 'none';
+        document.getElementById("buyNowButton").style.display = 'none';
+        document.getElementById("emptyCart").style.display = '';
+    }
+}
+
+function deleteCartItem(itemId) {
+    fetch("http://localhost:8181/deleteCartById", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: itemId
+    }).then(res => {
+        console.log(res)
+        CreateCartFromJSON();
+        alert("Item removed from cart Successfully!")
+    })
+}
+
+function OrderNow() {
+    //To be implemented
+    $('#exampleModal').modal('show')
+
+    var col = ['Product', 'Quantity', 'Price', 'Total'];
+
+    // CREATE DYNAMIC TABLE.
+    var table = document.createElement("table");
+    table.setAttribute('class', 'table table-striped table-hover')
+
+    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+    var tr = table.insertRow(-1);                   // TABLE ROW.
+
+    for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th");      // TABLE HEADER.
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+    }
+    for (i = 0; i < cartData.length; i++) {
+        tr = table.insertRow(-1);
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.productName;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].quantity;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].product.price;
+
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = cartData[i].price;
+    }
+
+    var divContainer = document.getElementById("productList");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+    var h4 = document.getElementById("totalAmountModal");
+    h4.innerText = "Total Amount: "+ TotalAmount
+    var shippingAddress = document.getElementById("shippingAddress");
+    shippingAddress.innerHTML = currentUser.street +'<br>' + currentUser.city + '<br>' + currentUser.state + '<br>' + currentUser.zip;
+}
+
+function PlaceOrder(){
+    console.log(cartData)
+    console.log(cartData.user)
+    var data = {"user": cartData[0].user, "amount": TotalAmount, "cart": cartData, "status": "confirmed"}
+    console.log(data)
+    fetch("http://localhost:8181/order", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).then((data) => {
+        console.log(data)
+        document.getElementById("modalBody").innerHTML="";
+        $('#exampleModal').modal('hide')
+        CreateCartFromJSON();
+        window.location.href = '/confirmationView';
+    })
+}
+</script>
+<!-- JS End -->
+</body>

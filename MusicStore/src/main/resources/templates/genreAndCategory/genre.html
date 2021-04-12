@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+<head>
+    <title>Vendor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">  	
+    <link rel="stylesheet" href="/styles/product/footer.css">
+	
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+    
+    <style>
+        th, td, p, input {
+            font:14px Verdana;
+        }
+        table, th, td 
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+        .select-margin{
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+    </style>
+    <script src="genre.js"></script>
+
+
+
+</head>
+<body onload="CreateTableFromJSON()">
+    <!-- Navbar -->
+
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="text-center">
+                <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Home'" th:href="@{/user/home}"/></a>
+			        </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
+                    </li>
+					<li sec:authorize="hasAuthority('USER')" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('USER')" class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Your Account
+			          </a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
+			          </ul>
+			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Logout'" th:href="@{/logout}"/></a>
+			        </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!--navbar end  -->
+    <div class="contain-fluid">
+        <div class="row" style="margin-left: 20px; margin-top: 20px;">
+            <div class="column-md-8">
+              <h2 style="margin-bottom: 20px;">Genre</h2>
+                <p id="showData"></p>
+                <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add New Genre
+                  </button>
+            </div>
+        </div>
+    </div>
+    <!-- <p id="newData"> 
+        <label>Client Name</label><input type="text" id="clientNameInput" /><br />
+        <label>Project Name</label><input type="text" id="projectNameInput" /><br />
+        <label>Project Manager</label><input type="text" id="projectManagerInput" /><br />
+        <label>Project Cost</label><input type="number" id="projectCostInput" /><br />
+    </p>
+    <input type="button" onclick="AddNewDeal()" value="Save" /> -->
+
+    <!-- Modal begin -->
+    <!-- Button trigger modal -->
+
+  
+  <!-- Modal Add Genre-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Genre Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"onclick="reset()">
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+            <input type="hidden" class="form-control" id="genreId" /><br />
+            <label>Genre Name</label>
+            <input type="text" class="form-control" id="genreName" /><br />
+            <small id="nameHelp" class="form-text text-danger"></small>
+            <button type="button" class="btn btn-primary" onclick="AddNewCategory()">Add Category</button>
+            <div id="addModalSelector"></div>
+            <button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="RemoveCategory()">Remove Category</button>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="AddNewDeal()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Modal End -->
+    <!-- JS Begin -->
+    <script>
+      
+var Data = [
+]
+
+
+function CreateTableFromJSON() {
+
+    //Get Data from API
+    fetch("http://localhost:8181/genre").then(res => {
+        return res.json();
+    })
+        .then((data) => {
+            console.log(data)
+            Data = data;
+            console.log(Data)
+
+            //
+            // EXTRACT VALUE FOR HTML HEADER. 
+            // ('Deal ID', 'Deal Name', 'Category' and 'Price')
+            var col = ['Name', 'Categories'];
+
+            // CREATE DYNAMIC TABLE.
+            var table = document.createElement("table");
+            table.setAttribute('class', 'table table-striped')
+
+            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+            var tr = table.insertRow(-1);                   // TABLE ROW.
+
+            for (var i = 0; i < col.length; i++) {
+                var th = document.createElement("th");      // TABLE HEADER.
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = 'Action';
+            tr.appendChild(th);
+            var th = document.createElement("th");
+            th.innerHTML = 'Action';
+            tr.appendChild(th);
+
+            // ADD JSON DATA TO THE TABLE AS ROWS.
+            console.log(47)
+            console.log(Data)
+            for (var i = 0; i < Data.length; i++) {
+                console.log(Data[i])
+                tr = table.insertRow(-1);
+
+
+                var tabCell = tr.insertCell(-1);
+                console.log(Data[i])
+                tabCell.innerHTML = Data[i].name;
+
+                //subtable
+                var tabcell2 = tr.insertCell(-1);
+                var subCategories = Data[i].categories;
+                console.log('sub')
+                console.log(subCategories)
+                var table1 = document.createElement("table");
+                for (j = 0; j < subCategories.length; j++) {
+                    console.log(subCategories[j].name)
+                    var tr1 = table1.insertRow(-1);
+                    var tabCell1 = tr1.insertCell(-1);
+                    tabCell1.innerHTML = subCategories[j].name;
+                }
+                console.log(table1)
+                tabcell2.appendChild(table1);
+
+
+                // Insert Extra Cell for the Delete Icon
+                //TODO: Complete this
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = '<button onclick="initiateUpdate(' + Data[i].id + ')"> <img src="images/4.png" style="height:30px;max-width:20px;"> </button>'
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = '<button onclick="DeleteRow(' + Data[i].id + ')"> <img src="images/trash.svg" style="height:30px;max-width:20px;"> </button>'
+
+            }
+
+            // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+            var divContainer = document.getElementById("showData");
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+        })
+}
+
+var optionId = 0;
+function AddNewCategory() {
+    var select = document.createElement('select');
+    select.setAttribute('class', 'form-select')
+    select.setAttribute('class', 'select-margin')
+    select.id = 'selectid' + optionId;
+    console.log(select.id)
+    optionId++;
+    //Get Data from API
+    var categories = []
+    fetch("http://localhost:8181/category").then(res => {
+        return res.json();
+    })
+        .then((data) => {
+            categories = data;
+            console.log(categories)
+            var option;
+            for (i = 0; i < categories.length; i++) {
+                option = document.createElement('option');
+                option.value = categories[i].id;
+                option.textContent = categories[i].name;
+                select.appendChild(option);
+            }
+            var divContainer = document.getElementById("addModalSelector");
+            divContainer.appendChild(select);
+        })
+}
+
+function AddNewDeal() {
+    var name = document.getElementById("genreName").value;
+    var id = document.getElementById("genreId").value;
+
+    if (name == "") {
+        document.getElementById("nameHelp").innerText = "Please Enter Name!"
+    }
+    else {
+        if (id === '') {
+            InsertRow(name);
+        }
+        else {
+            console.log('hit');
+            updateRow(id, name);
+        }
+        document.getElementById("genreName").value = "";
+        document.getElementById("genreId").value = "";
+        document.getElementById("nameHelp").innerText = "";
+        document.getElementById("addModalSelector").innerHTML = "";
+        optionId = 0;
+    }
+}
+
+function InsertRow(name) {
+    var categories = []
+    for (i = 0; i < optionId; i++) {
+        var sel = document.getElementById('selectid' + i);
+        var categoryId = sel.options[sel.selectedIndex].value;
+        var categoryName = sel.options[sel.selectedIndex].text;
+        var Categorydata = { 'id': categoryId, 'name': categoryName };
+        categories.push(Categorydata)
+    }
+    console.log(categories)
+    let genreData = { 'name': name, 'categories': categories }
+    console.log(genreData);
+    fetch("http://localhost:8181/genre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(genreData)
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function initiateUpdate(id) {
+    console.log(Data)
+    for (var i = 0; i < Data.length; i++) {
+
+        if (Data[i].id === parseInt(id)) {
+            document.getElementById("genreName").value = Data[i].name;
+            document.getElementById("genreId").value = Data[i].id;
+            console.log(Data[i]);
+            var genrecategories = Data[i].categories
+            console.log(Data[i].categories)
+            //Get Data from API
+            var categories = []
+            fetch("http://localhost:8181/category").then(res => {
+                return res.json();
+            })
+                .then((data) => {
+                    categories = data;
+                    console.log(genrecategories)
+                    console.log(categories)
+                    var option;
+                    for (i = 0; i < genrecategories.length; i++) {
+                        var select = document.createElement('select');
+                        select.setAttribute('class', 'form-select')
+                        select.setAttribute('class', 'select-margin')
+                        select.id = 'selectid' + optionId;
+                        console.log(select.id)
+                        optionId++;
+                        console.log(select)
+                        for (j = 0; j < categories.length; j++) {
+                            option = document.createElement('option');
+                            option.value = categories[j].id;
+                            option.textContent = categories[j].name;
+                            console.log(categories[j].id)
+                            console.log(genrecategories[i].id)
+                            if (categories[j].id == genrecategories[i].id) {
+                                console.log(option.value)
+                                option.selected = 'selected'
+                            }
+                            select.appendChild(option);
+                        }
+                        var divContainer = document.getElementById("addModalSelector");
+                        divContainer.appendChild(select);
+                    }
+
+                    $('#exampleModal').modal('show')
+                })
+        }
+    }
+}
+
+function updateRow(id, name) {
+    var categories = []
+    for (i = 0; i < optionId; i++) {
+        var sel = document.getElementById('selectid' + i);
+        var categoryId = sel.options[sel.selectedIndex].value;
+        var categoryName = sel.options[sel.selectedIndex].text;
+        var Categorydata = { 'id': categoryId, 'name': categoryName };
+        categories.push(Categorydata)
+    }
+    console.log(categories)
+    let genreData = { 'id': id, 'name': name, 'categories': categories }
+    console.log(genreData);
+    fetch("http://localhost:8181/genre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(genreData)
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function DeleteRow(genreId) {
+
+    fetch("http://localhost:8181/deleteGenre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: genreId
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function RemoveCategory() {
+    var sel = document.getElementById('selectid' + --optionId);
+    console.log(sel.id)
+    sel.remove();
+}
+
+function reset() {
+    document.getElementById("genreName").value = "";
+    document.getElementById("genreId").value = "";
+    document.getElementById("nameHelp").innerText = "";
+    document.getElementById("addModalSelector").innerHTML = "";
+    optionId = 0;
+}
+
+
+    </script>
+    <!-- JS END -->
+    
+    	<div class="footer">
+        <div class="inner_footer">
+            <div class="logo_container">
+                <img src="/images/n-music-logo-v7-nobackground.png" alt="">
+            </div>
+            <div class="footer_cols">
+                <h3>Download Our App</h3>
+                <p>Available on Android and iOS devices</p>
+                <a href="https://play.google.com/store"><img src="/images/playstore.png" alt=""></a>
+                <a href="https://www.apple.com/app-store/"><img src="/images/appstore.png" alt=""></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="">NuRewards</a></li>
+                    <li><a href="">Artist Collaboration Program</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer_cols">
+                <h3>Our Partner</h3>
+                <a href="https://hcl.com/"><img src="/images/hcl.png" alt="" style="width:80px;height:auto;"></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Follow Us</h3>
+                <li class="social"><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                <li class="social"><a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                <li class="social"><a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                <li class="social"><a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a></li>
+            </div>
+            <div class="footer_cols">
+                <h3>Contact Us</h3>
+                <span>
+                    <i class="fas fa-envelope"></i> contact@numusic.com
+                </span>
+            </div>
+        </div>
+    </div>
+    
+        <!-- JS Begin -->
+    <script>
+      
+var Data = [
+]
+
+
+function CreateTableFromJSON() {
+
+    //Get Data from API
+    fetch("http://localhost:8181/genre").then(res => {
+        return res.json();
+    })
+        .then((data) => {
+            console.log(data)
+            Data = data;
+            console.log(Data)
+
+            //
+            // EXTRACT VALUE FOR HTML HEADER. 
+            // ('Deal ID', 'Deal Name', 'Category' and 'Price')
+            var col = ['Name', 'Categories'];
+
+            // CREATE DYNAMIC TABLE.
+            var table = document.createElement("table");
+            table.setAttribute('class', 'table table-striped')
+
+            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+            var tr = table.insertRow(-1);                   // TABLE ROW.
+
+            for (var i = 0; i < col.length; i++) {
+                var th = document.createElement("th");      // TABLE HEADER.
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = 'Action';
+            tr.appendChild(th);
+            var th = document.createElement("th");
+            th.innerHTML = 'Action';
+            tr.appendChild(th);
+
+            // ADD JSON DATA TO THE TABLE AS ROWS.
+            console.log(47)
+            console.log(Data)
+            for (var i = 0; i < Data.length; i++) {
+                console.log(Data[i])
+                tr = table.insertRow(-1);
+
+
+                var tabCell = tr.insertCell(-1);
+                console.log(Data[i])
+                tabCell.innerHTML = Data[i].name;
+
+                //subtable
+                var tabcell2 = tr.insertCell(-1);
+                var subCategories = Data[i].categories;
+                console.log('sub')
+                console.log(subCategories)
+                var table1 = document.createElement("table");
+                for (j = 0; j < subCategories.length; j++) {
+                    console.log(subCategories[j].name)
+                    var tr1 = table1.insertRow(-1);
+                    var tabCell1 = tr1.insertCell(-1);
+                    tabCell1.innerHTML = subCategories[j].name;
+                }
+                console.log(table1)
+                tabcell2.appendChild(table1);
+
+
+                // Insert Extra Cell for the Delete Icon
+                //TODO: Complete this
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = '<button onclick="initiateUpdate(' + Data[i].id + ')"> <img src="/images/4.png" style="height:30px;max-width:20px;"> </button>'
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = '<button onclick="DeleteRow(' + Data[i].id + ')"> <img src="/images/trash.svg" style="height:30px;max-width:20px;"> </button>'
+
+            }
+
+            // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+            var divContainer = document.getElementById("showData");
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+        })
+}
+
+var optionId = 0;
+function AddNewCategory() {
+    var select = document.createElement('select');
+    select.setAttribute('class', 'form-select')
+    select.setAttribute('class', 'select-margin')
+    select.id = 'selectid' + optionId;
+    console.log(select.id)
+    optionId++;
+    //Get Data from API
+    var categories = []
+    fetch("http://localhost:8181/category").then(res => {
+        return res.json();
+    })
+        .then((data) => {
+            categories = data;
+            console.log(categories)
+            var option;
+            for (i = 0; i < categories.length; i++) {
+                option = document.createElement('option');
+                option.value = categories[i].id;
+                option.textContent = categories[i].name;
+                select.appendChild(option);
+            }
+            var divContainer = document.getElementById("addModalSelector");
+            divContainer.appendChild(select);
+        })
+}
+
+function AddNewDeal() {
+    var name = document.getElementById("genreName").value;
+    var id = document.getElementById("genreId").value;
+
+    if (name == "") {
+        document.getElementById("nameHelp").innerText = "Please Enter Name!"
+    }
+    else {
+        if (id === '') {
+            InsertRow(name);
+        }
+        else {
+            console.log('hit');
+            updateRow(id, name);
+        }
+        document.getElementById("genreName").value = "";
+        document.getElementById("genreId").value = "";
+        document.getElementById("nameHelp").innerText = "";
+        document.getElementById("addModalSelector").innerHTML = "";
+        optionId = 0;
+    }
+}
+
+function InsertRow(name) {
+    var categories = []
+    for (i = 0; i < optionId; i++) {
+        var sel = document.getElementById('selectid' + i);
+        var categoryId = sel.options[sel.selectedIndex].value;
+        var categoryName = sel.options[sel.selectedIndex].text;
+        var Categorydata = { 'id': categoryId, 'name': categoryName };
+        categories.push(Categorydata)
+    }
+    console.log(categories)
+    let genreData = { 'name': name, 'categories': categories }
+    console.log(genreData);
+    fetch("http://localhost:8181/genre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(genreData)
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function initiateUpdate(id) {
+    console.log(Data)
+    for (var i = 0; i < Data.length; i++) {
+
+        if (Data[i].id === parseInt(id)) {
+            document.getElementById("genreName").value = Data[i].name;
+            document.getElementById("genreId").value = Data[i].id;
+            console.log(Data[i]);
+            var genrecategories = Data[i].categories
+            console.log(Data[i].categories)
+            //Get Data from API
+            var categories = []
+            fetch("http://localhost:8181/category").then(res => {
+                return res.json();
+            })
+                .then((data) => {
+                    categories = data;
+                    console.log(genrecategories)
+                    console.log(categories)
+                    var option;
+                    for (i = 0; i < genrecategories.length; i++) {
+                        var select = document.createElement('select');
+                        select.setAttribute('class', 'form-select')
+                        select.setAttribute('class', 'select-margin')
+                        select.id = 'selectid' + optionId;
+                        console.log(select.id)
+                        optionId++;
+                        console.log(select)
+                        for (j = 0; j < categories.length; j++) {
+                            option = document.createElement('option');
+                            option.value = categories[j].id;
+                            option.textContent = categories[j].name;
+                            console.log(categories[j].id)
+                            console.log(genrecategories[i].id)
+                            if (categories[j].id == genrecategories[i].id) {
+                                console.log(option.value)
+                                option.selected = 'selected'
+                            }
+                            select.appendChild(option);
+                        }
+                        var divContainer = document.getElementById("addModalSelector");
+                        divContainer.appendChild(select);
+                    }
+
+                    $('#exampleModal').modal('show')
+                })
+        }
+    }
+}
+
+function updateRow(id, name) {
+    var categories = []
+    for (i = 0; i < optionId; i++) {
+        var sel = document.getElementById('selectid' + i);
+        var categoryId = sel.options[sel.selectedIndex].value;
+        var categoryName = sel.options[sel.selectedIndex].text;
+        var Categorydata = { 'id': categoryId, 'name': categoryName };
+        categories.push(Categorydata)
+    }
+    console.log(categories)
+    let genreData = { 'id': id, 'name': name, 'categories': categories }
+    console.log(genreData);
+    fetch("http://localhost:8181/genre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(genreData)
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function DeleteRow(genreId) {
+
+    fetch("http://localhost:8181/deleteGenre", {
+        method: "POST",
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: genreId
+    }).then(res => {
+        alert("Request complete!");
+        $('#exampleModal').modal('hide')
+        CreateTableFromJSON();
+    });
+}
+
+function RemoveCategory() {
+    var sel = document.getElementById('selectid' + --optionId);
+    console.log(sel.id)
+    sel.remove();
+}
+
+function reset() {
+    document.getElementById("genreName").value = "";
+    document.getElementById("genreId").value = "";
+    document.getElementById("nameHelp").innerText = "";
+    document.getElementById("addModalSelector").innerHTML = "";
+    optionId = 0;
+}
+
+
+    </script>
+    <!-- JS END -->
+    
+</body>

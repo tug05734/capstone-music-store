@@ -73,7 +73,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("product/product_admin_view");
 		Iterable<Product> products;
-		if(keyword.isBlank()) {
+		if(keyword.isEmpty()) {
 			products = productService.GetAllMusic();
 		}else {
 			products = productService.SearchProductByKeyword(keyword);

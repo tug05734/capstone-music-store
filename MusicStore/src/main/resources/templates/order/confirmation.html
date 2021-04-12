@@ -5,19 +5,18 @@
     <title>Vendor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/styles/product/footer.css">
+    
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         th,
@@ -63,18 +62,107 @@
     </style>
 </head>
 
-<body onload="CreateCartFromJSON()">
-    <div class="contain-fluid">
-        <div class="row" class="p-3 mb-2 bg-success text-white" style="margin-left: 20px; margin-top: 20px;">
-            <div class="column-md-12">
-                <div class="alert alert-success" role="alert">
-                    <h2>Thank you, your order has been placed successfully.</h2>
-                  </div>
-                  <div class="alert alert-warning" role="alert">
-                    Your order will be delivered in three days.
-                  </div>
-                  <a href="#">Back to shopping</a>
+<body>
+	
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="text-center">
+                <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/products/all">Store</a>
+                    </li>
+					<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cartView">Cart</a>
+                    </li>
+                    <li class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Your Account
+			          </a>
+			          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			            <li><a class="dropdown-item" href="/user/home">View Account</a></li>
+			            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
+			          </ul>
+			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
+                </ul>
             </div>
         </div>
     </div>
+		
+		<div style="background: url(/images/home-background.png)" class="page-holder bg-cover m-0 p-0">
+		
+		    <div class="contain-fluid">
+		        <div class="row">
+		            <div class="col-md-4 mx-auto mt-5 mb-5">
+		                <div class="p-2 text-black rounded mb-4" style="background-color: rgba(164,179,182,0.5);" role="alert">
+		                    <h2>Thank you, your order has been placed successfully.</h2>
+		                  
+		                  	<p>  Your order will be delivered in three days.</p>
+		                  </div>
+		                  <a class="text-white p-2 rounded" style="background-color: rgb(216,63,135); text-decoration: none;" href="products/all">Back to shopping</a>
+		            </div>
+		        </div>
+		    </div>
+    	</div>
+    	
+      	<div class="footer">
+        <div class="inner_footer">
+            <div class="logo_container">
+                <img src="/images/n-music-logo-v7-nobackground.png" alt="">
+            </div>
+            <div class="footer_cols">
+                <h3>Download Our App</h3>
+                <p>Available on Android and iOS devices</p>
+                <a href="https://play.google.com/store"><img src="/images/playstore.png" alt=""></a>
+                <a href="https://www.apple.com/app-store/"><img src="/images/appstore.png" alt=""></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="">NuRewards</a></li>
+                    <li><a href="">Artist Collaboration Program</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer_cols">
+                <h3>Our Partner</h3>
+                <a href="https://hcl.com/"><img src="/images/hcl.png" alt="" style="width:80px;height:auto;"></a>
+            </div>
+            <div class="footer_cols">
+                <h3>Follow Us</h3>
+                <li class="social"><a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                <li class="social"><a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                <li class="social"><a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                <li class="social"><a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a></li>
+            </div>
+            <div class="footer_cols">
+                <h3>Contact Us</h3>
+                <span>
+                    <i class="fas fa-envelope"></i> contact@numusic.com
+                </span>
+            </div>
+        </div>
+    </div>
+    
 </body>

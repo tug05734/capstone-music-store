@@ -1,5 +1,10 @@
 <!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -29,8 +34,6 @@
 </head>
 
 <body>
-	
-	
 	
 	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -63,10 +66,21 @@
 			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
 			          </ul>
 			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
                 </ul>
             </div>
         </div>
     </div>
+    
+
 
 
 
@@ -93,7 +107,7 @@
 	            		<div id="cards">
 	            			<a th:href="@{/products/details/{id}(id = ${product.productID})}" class="links">
 	            			<div>
-			            		<div class="col border rounded-3 text-white"  style="background-color:rgba(130,101,167,0.7);">
+			            		<div class="col border m-1 rounded-3 text-white"  style="background-color:rgba(130,101,167,0.7);">
 			            			<img alt="Thumbnail" th:src="${product.imagePath}" id="thumbnail">
 					            	<p th:text="${product.category.name}"></p>
 					            	<p th:text="${product.genre.name}"></p>

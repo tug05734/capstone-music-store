@@ -1,5 +1,10 @@
 <!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -60,6 +65,9 @@
 			            <li><hr class="dropdown-divider"></li>
 			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
 			          </ul>
+			        </li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
 			        </li>
                 </ul>
             </div>

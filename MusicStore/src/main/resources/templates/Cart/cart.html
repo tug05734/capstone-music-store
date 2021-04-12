@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+
 
 <head>
     <title>Vendor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/product/footer.css">
         
     <!-- Optional JavaScript -->
@@ -17,10 +21,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
     <style>
         th,
         td,
@@ -71,8 +76,9 @@
 
 <body onload="getCurrentUser()">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		     <div class="text-center">
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="text-center">
                 <a class="navbar-brand" href="/"><img style="height: 2rem; width: 2rem;" src="/images/n-music-logo-v7-nobackground.png" alt="logo"></a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -101,17 +107,27 @@
 			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
 			          </ul>
 			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Genre Page'" th:href="@{/genreView}"/></a>
+			        </li>
+			        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Category Page'" th:href="@{/categoryView}"/></a>
+			        </li>
                 </ul>
             </div>
-        </div>       
+        </div>
+    </div>  
 
-    </nav>
+
     <!--navbar end  -->
  	<div style="background: url(/images/home-background.png)" class="page-holder bg-cover m-0 p-0">
  	
-	    <div class="contain-fluid">
+	    <div class="container-fluid">
 	        <div class="row">
-	            <div class="column-md-8 mx-auto pb-5 pt-5">
+	            <div class="col-md-6 mx-auto pb-5 pt-5">
 	                <h2 style="margin-bottom: 30px;">Cart Items</h2>
 	                <h4 id="emptyCart" style="margin-bottom: 30px;display: none;">Looks like your cart is empty!</h4>
 	                <p id="showData"></p>
@@ -129,8 +145,7 @@
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <h5 class="modal-title" id="exampleModalLabel">Verify Order Details</h5>
-	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="reset()">
-	            <span aria-hidden="true">&times;</span>
+	          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"onclick="reset()">
 	          </button>
 	        </div>
 	        <div class="modal-body" id="modalBody">
@@ -142,6 +157,8 @@
 	            <p id="billingAddress"></p>
 	            <p id="productList"></p>
 	            <h4 id="totalAmountModal"></h4>
+	            
+
 	       
 	        </div>
 	        <div class="modal-footer">
@@ -354,7 +371,7 @@ function PlaceOrder(){
         document.getElementById("modalBody").innerHTML="";
         $('#exampleModal').modal('hide')
         CreateCartFromJSON();
-        window.location.href = '../order/confirmation.html';
+        window.location.href = '/confirmationView';
     })
 }
 </script>

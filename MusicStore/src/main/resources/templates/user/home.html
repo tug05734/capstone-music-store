@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/root_layout"
+      lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>User Home Page</title>
@@ -49,6 +54,9 @@
 			            <li><a class="dropdown-item" href="/orderView">Order</a></li>
 			          </ul>
 			        </li>
+			       	<li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                		<a class="nav-link active" th:text="'Admin Product Page'" th:href="@{/products/admin/all}"/></a>
+			        </li>
                 </ul>
             </div>
         </div>
@@ -69,8 +77,10 @@
 						<div class="col-md-4 rounded-3">
 							<table class="mt-5">
 								<tr>
-									<td class="p-3">View Order</td>
+									<td sec:authorize="hasAuthority('USER')" class="p-3">View Order</td>
 								</tr>
+								<tr>
+									<td sec:authorize="hasAuthority('USER')">Address</td>
 							</table>
 						</div>
 						<div class="col-md-4">

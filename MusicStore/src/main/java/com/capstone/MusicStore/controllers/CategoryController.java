@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.capstone.MusicStore.entities.Category;
 import com.capstone.MusicStore.services.CategoryService;
@@ -37,6 +40,13 @@ public class CategoryController {
 	public void deleteCategory(@RequestBody int categoryId) {
 		System.out.println("Post hit");
 	    categoryService.deleteCategory(categoryId);;
+	}
+	
+	@RequestMapping(value="/categoryView", method= RequestMethod.GET)
+	public ModelAndView getCategoryView() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("genreAndCategory/categories");
+		return mav;
 	}
 
 }

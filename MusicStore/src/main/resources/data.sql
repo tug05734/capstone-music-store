@@ -1,1 +1,1 @@
-REPLACE INTO `roles` VALUES (1,'USER');
+INSERT INTO roles VALUES (1,'USER');
